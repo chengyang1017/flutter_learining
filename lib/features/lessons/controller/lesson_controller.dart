@@ -69,25 +69,42 @@ class LessonController extends ChangeNotifier {
         'viewedAnswer': viewedAnswer,
       });
   Future<void> check() async {
-    if (isChecking) return;
-    isChecking = true;
-    notifyListeners();
-    attempts++;
-    _captureCode();
-    try {
-      checkResult = checker.checkStep(
-        playground.code,
-        lesson.steps[currentStepIndex],
-      );
-      if (checkResult!.passed) {
-        completedSteps.add(lesson.steps[currentStepIndex].id);
-      }
-      await _save();
-    } finally {
-      isChecking = false;
-      notifyListeners();
+  if (isChecking) return;
+
+  isChecking = true;
+  notifyListeners();
+
+  attempts++;
+  _captureCode();
+
+  final step = lesson.steps[currentStepIndex];
+
+  try {
+    // UI 步骤在检查之前，先重新解析编辑器中的当前代码。
+    //
+    // 这样可以：
+    // 1. 清除上一次运行留下的旧 Parser 错误；
+    // 2. 刷新右侧预览；
+    // 3. 保证“检查”与当前编辑器内容一致。
+    if (step.stepType == LessonStepType.ui) {
+      playground.runCode();
     }
+
+    checkResult = checker.checkStep(
+      playground.code,
+      step,
+    );
+
+    if (checkResult!.passed) {
+      completedSteps.add(step.id);
+    }
+
+    await _save();
+  } finally {
+    isChecking = false;
+    notifyListeners();
   }
+}
 
   Future<bool> runCurrentUi() async {
     if (isRunning ||
@@ -166,6 +183,29 @@ class LessonController extends ChangeNotifier {
     await _save();
     notifyListeners();
   }
+  Future<void> restartLesson() async {
+  // 回到第一步。
+  currentStepIndex = 0;
+
+  // 清除步骤完成状态。
+  completedSteps.clear();
+
+  // 清除用户在各步骤和各文件中保存的代码。
+  lastCode.clear();
+  fileCodes.clear();
+
+  // 清除课程统计状态。
+  attempts = 0;
+  viewedAnswer = false;
+
+  // 重新加载第一步的 starterCode。
+  _loadStep();
+
+  // 把重置后的状态保存到 Hive。
+  await _save();
+
+  notifyListeners();
+}
 
   @override
   void dispose() {

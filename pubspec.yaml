@@ -22,4 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/lessons/
+    - assets/lessons/create_post/advanced_images/answers/
     - assets/lessons/create_post/advanced_images/answers/post_service.dart

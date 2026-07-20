@@ -37,12 +37,19 @@ class PlaygroundController extends ChangeNotifier {
   PreviewDevice device = PreviewDevice.androidPhone;
   String get code => textController.text;
   void updateCode(String value) {
-    if (autoRun) {
-      _debounce?.cancel();
-      _debounce = Timer(const Duration(milliseconds: 400), runCode);
-    }
-    notifyListeners();
+  // 编辑器内容一旦变化，旧错误就不再代表当前代码。
+  error = null;
+
+  if (autoRun) {
+    _debounce?.cancel();
+    _debounce = Timer(
+      const Duration(milliseconds: 400),
+      runCode,
+    );
   }
+
+  notifyListeners();
+}
 
   void runCode() {
     _debounce?.cancel();

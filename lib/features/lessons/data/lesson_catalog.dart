@@ -46,7 +46,10 @@ abstract final class LessonCatalog {
         stepType: LessonStepType.ui,
         explanation: '本部分只构建可运行的声明式 UI。CreatePostPage 作者答案尚未提供。',
         starterCode: "Column(children: [Text('发布帖子')])",
-        standardAnswerAssets: const {},
+        standardAnswerAssets: const {
+          'create_post_page.dart':
+      'assets/lessons/create_post/advanced_images/answers/create_post_page_ui.dart',
+        },
         hints: const ['先完成输入框和按钮的可视结构，再点击“运行”查看当前代码。'],
         requirements: const [
           RequiredWidgetRequirement('Column'),
@@ -65,7 +68,10 @@ abstract final class LessonCatalog {
         stepType: LessonStepType.logic,
         explanation: '检查使用 Dart AST，不执行代码。_publishPost 作者答案尚未提供。',
         starterCode: 'class _CreatePostPageState {\n}\n',
-        standardAnswerAssets: const {},
+        standardAnswerAssets: const {
+          'create_post_page.dart':
+      'assets/lessons/create_post/advanced_images/answers/create_post_page_logic.dart',
+        },
         hints: const ['把 trim、空内容判断、提交状态和 service 调用分别补齐。'],
         requirements: const [
           RequiredMethodRequirement('_publishPost'),

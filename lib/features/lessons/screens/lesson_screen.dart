@@ -105,11 +105,25 @@ class _LessonCompletionView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              FilledButton.icon(
-                onPressed: () => Navigator.maybePop(context),
-                icon: const Icon(Icons.check),
-                label: const Text('返回课程列表'),
-              ),
+              Row(
+  children: [
+    Expanded(
+      child: OutlinedButton.icon(
+        onPressed: () => Navigator.maybePop(context),
+        icon: const Icon(Icons.arrow_back),
+        label: const Text('返回课程列表'),
+      ),
+    ),
+    const SizedBox(width: 12),
+    Expanded(
+      child: FilledButton.icon(
+        onPressed: controller.restartLesson,
+        icon: const Icon(Icons.replay),
+        label: const Text('重新学习'),
+      ),
+    ),
+  ],
+),
             ],
           ),
         ),
