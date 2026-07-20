@@ -1,0 +1,30 @@
+.dart_tool/
+.flutter-plugins*
+.packages
+build/
+pubspec.lock
+Pub/
+
+# Local tool/runtime files
+.dart-tool/
+.dartServer/
+.flutter
+.flutter_tool_state
+Dart/
+
+# Flutter/Dart generated files
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE files
+.idea/
+*.iml
+
+# Platform generated files
+android/.gradle/
+android/local.properties
+android/key.properties
